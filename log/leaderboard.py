@@ -16,8 +16,8 @@ configs = Queue()
 
 @app.route('/form')
 def form():
-    # Render the form template
-    return render_template("form.html")
+    reports = get_eval_reports()
+    return render_template("form.html", reports=reports)
 
 @app.route('/upload', methods=['POST'])
 def upload():
@@ -32,32 +32,28 @@ def upload():
     # This example only returns a confirmation message.
     
     # Process and save the file, etc...
-    with open("log/template.json", 'r') as json_file:
-        json_data = json.load(json_file)
+    # with open("log/template.json", 'r') as json_file:
+    #     json_data = json.load(json_file)
 
-    os.makedirs(f"data", exist_ok=True)
-    checkpoint_file.save(f"data/{policy_name}.zip")
+    # os.makedirs(f"data", exist_ok=True)
+    # checkpoint_file.save(f"data/{policy_name}.zip")
 
-    json_data['policy_algo_name'] = policy_algo_name
-    json_data['policy_name'] = policy_name
-    json_data['continue_from'] = f"data/{policy_name}.zip"
-    json_data['policy_algo_sb3_contrib'] = policy_algo_sb3_contrib
-    json_data['policy_algo_kwargs'] = {"n_steps": n_steps}
+    # json_data['policy_algo_name'] = policy_algo_name
+    # json_data['policy_name'] = policy_name
+    # json_data['continue_from'] = f"data/{policy_name}.zip"
+    # json_data['policy_algo_sb3_contrib'] = policy_algo_sb3_contrib
+    # json_data['policy_algo_kwargs'] = {"n_steps": n_steps}
 
-    os.makedirs("config_runner/configs/log", exist_ok=True)
-    with open(f"config_runner/configs/log/{policy_name}.json", 'w') as updated_json_file:
-        json.dump(json_data, updated_json_file, indent=2)
-    configs.put(f"log/{policy_name}.json")
+    # os.makedirs("config_runner/configs/log", exist_ok=True)
+    # with open(f"config_runner/configs/log/{policy_name}.json", 'w') as updated_json_file:
+    #     json.dump(json_data, updated_json_file, indent=2)
+    # configs.put(f"log/{policy_name}.json")
 
-    return f"""
-    <p>File uploaded successfully! Details:</p>
-    <ul>
-        <li>Policy Algorithm SB3 Contrib: {policy_algo_sb3_contrib}</li>
-        <li>Policy Algorithm Name: {policy_algo_name}</li>
-        <li>Policy Name: {policy_name}</li>
-        <li>Number of Steps: {n_steps}</li>
-    </ul>
-    """
+    return render_template('popup.html',
+                           policy_algo_sb3_contrib=policy_algo_sb3_contrib,
+                           policy_algo_name=policy_algo_name,
+                           policy_name=policy_name,
+                           n_steps=n_steps)
 
 def get_eval_reports():
     log_directory = os.path.join('..', 'log')
@@ -79,7 +75,7 @@ def get_eval_reports():
 
 @app.route('/leaderboard')
 def leaderboard():
-    reports = get_eval_reports
+    reports = get_eval_reports()
     return render_template('leaderboard.html', reports=reports)
 
 def runner():

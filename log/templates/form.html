@@ -1,0 +1,94 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Model Checkpoint Upload</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f7f7f7;
+        }
+        .container {
+            text-align: center;
+            border: 1px solid #ddd;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            background-color: #fff;
+            width: 400px;
+        }
+        h1 {
+            color: navy;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            text-align: left;
+            margin: 10px 0 5px;
+        }
+        input, select, button {
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #004080;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #003366;
+        }
+        .radio-group {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Upload Model Checkpoint</h1>
+        <form action="/upload" method="post" enctype="multipart/form-data">
+            <label for="checkpoint">Model Checkpoint (zip file):</label>
+            <input type="file" name="checkpoint" accept=".zip" required>
+            
+            <label>Policy Algorithm SB3 Contrib:</label>
+            <div class="radio-group">
+                <input type="radio" id="true" name="policy_algo_sb3_contrib" value="True" required>
+                <label for="true">True</label>
+                <input type="radio" id="false" name="policy_algo_sb3_contrib" value="False">
+                <label for="false">False</label>
+            </div>
+            
+            <label for="policy_algo_name">Policy Algorithm Name:</label>
+            <input type="text" name="policy_algo_name" required>
+            
+            <label for="policy_name">Policy Name:</label>
+            <input type="text" name="policy_name" required>
+            
+            <label for="n_steps">Number of Steps:</label>
+            <select name="n_steps" required>
+                <option value="1024">1024</option>
+                <option value="2048">2048</option>
+                <option value="4096">4096</option>
+            </select>
+            
+            <button type="submit">Upload</button>
+        </form>
+    </div>
+</body>
+</html>

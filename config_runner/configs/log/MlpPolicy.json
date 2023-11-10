@@ -1,0 +1,9 @@
+{
+  "policy_algo_name": "PPO",
+  "policy_name": "MlpPolicy",
+  "continue_from": "data/MlpPolicy.zip",
+  "policy_algo_sb3_contrib": "False",
+  "policy_algo_kwargs": {
+    "n_steps": "4096"
+  }
+}
